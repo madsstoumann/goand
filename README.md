@@ -1,2 +1,41 @@
-# goand
-Wrapper for fetch (get, put, raw)
+## Settings
+
+| Setting             | Possible values (*default)                 |
+| :------------------ | ----------------------------: |
+| body (1)            | blank
+| cache               | *default, no-cache, no-store, reload, force-cache, only-if-cached 
+| callback            | function *logError
+| credentials         | include, *same-origin, omit
+ files(2)             | input[type=file].files or array of file-objects
+| header(3)           | blank
+| integrity(4)         | blank
+| isHistoryNavigation | false
+| isReloadNavigation  | false
+| keepalive           | false
+| method              | *GET, POST, PUT, DELETE
+| mode                | no-cors, cors, *same-origin
+| redirect            | manual, *follow, error
+| referrer            | no-referrer, *client
+| referrerPolicy      | *no-referrer-when-downgrade, no-referrer, origin", origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+| spinner             | function
+| timeout(5)          | 3000
+
+(1) Data type must match "Content-Type" header  
+(2) Files array (FileReader) or input[type=file].files  
+(3) { "Content-Type": "application/json" } etc.  
+(4) Example: 'sha256-abd'  
+(5) Timeout in milliseconds
+
+## Error callback
+If an error occurs, it is normally sent to the built-in method: _logError_. By specifying a custom error method, the error is sent to that.
+
+## Spinner callback
+
+## Examples
+
+```js
+(async () => {
+  const data = await fetchIt('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem',{ mode: 'cors' });
+  console.log(data);
+})();
+```

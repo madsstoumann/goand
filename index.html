@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+  <title>GoAnd</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+
+<script type="module">
+
+  function myError(error) {
+    console.error(error.name, error.message, error.status);
+  }
+
+  function mySpinner(bool) {
+    console.info(bool);
+  }
+
+  import goand from './goand.mjs';
+
+  (async () => {
+    const data = await goand('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem', { mode: 'cors' }, myError, mySpinner);
+    console.log(data);
+  })();
+
+  goand('//dawa.aws.dk/adresser/autocomplete?side=1&per_side=10&q=marievej', { mode: 'cors', timeout: 3000 }, myError).then(data => {
+    console.log(data);
+  });
+
+  goand('//httpstat.us/500', { mode: 'cors' }, myError).then(data => {
+    // console.log(data);
+  });
+ 
+
+
+  </script>
+</body>
+</html>
