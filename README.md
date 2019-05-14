@@ -1,4 +1,7 @@
-## Settings
+# Goand
+Wrapper for fetch. Description in-progress ;-)
+
+## Options object
 
 | Setting             | Possible values (*default)                 |
 | :------------------ | ----------------------------: |
@@ -35,6 +38,8 @@ A dummy _spinner_-method is triggered before a fetch and when it's completed. By
 ## Examples
 
 ```js
+import goand from './goand.mjs';
+
 (async () => {
   const data = await goand('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem',{ mode: 'cors' });
   console.log(data);
