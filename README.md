@@ -34,7 +34,7 @@ If an error occurs, it is normally sent to the built-in method `logError`.
 You can specify a custom `error`-method in the `options`-object.
 
 ## Parser callback
-By default, a `response` is parsed through the `setResponse`-method, that will return `json` or `text`.
+By default, a `response` is parsed through the `setResponse`-method, that will return `json` or `text`.  
 You can specify a custom `parser`-method in the `options`-object.
 
 ## Spinner callback
@@ -42,6 +42,7 @@ A dummy _spinner_-method is triggered _before_ a fetch and when it's completed.
 You can specify a custom `spinner`-method in the `options`-object (must recieve a boolean as it's single parameter).
 
 ## Examples
+_See `index.html` for more_
 
 ```js
 import goand from './goand.mjs';
