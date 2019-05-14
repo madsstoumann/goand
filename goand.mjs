@@ -1,4 +1,12 @@
 /**
+ * Goand
+ * @module /goand.mjs
+ * @version 0.9.0
+ * @author Mads Stoumann
+ * @description Wrapper for fetch with timeout, custom error-, spinner-, and parser-callbacks.
+ */
+
+/**
  * Extends Error Object with FetchError, including http-status-code
  * @module FetchError
  */
@@ -115,7 +123,7 @@ function logError(error) {
 /**
  * @function setResponse
  * @param {Object} response Response Object from fetch()
- * @description Depending on contentType, returns json, text
+ * @description Depending on contentType, returns json or text
  */
 function setResponse(response) {
   const contentType = response.headers.get('content-type');

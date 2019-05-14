@@ -1,5 +1,6 @@
 # Goand
-Wrapper for fetch. Description in-progress ;-)
+Wrapper for fetch with timeout, custom error-, spinner-, and parser-callbacks.  
+Use: `goand(url, options)`
 
 ## Options object
 
