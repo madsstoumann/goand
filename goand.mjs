@@ -15,23 +15,15 @@ class FetchError extends Error {
  * @function gofor
  * @param {String} url
  * @param {Object} options
- * @param {Function} callback Custom error callback-function
- * @param {Function} spinner Custom spinner function (called with `true` and `false`)
  * @description Wrapper for fetch with default options, error callback, spinner callback
  */
-export default function goand(
-  url,
-  options,
-  callback = logError,
-  spinner = bool => {
-    return bool;
-  }
-) {
+export default function goand(url, options) {
   const settings = Object.assign(
     {
       body: '',
       cache: 'default',
       credentials: 'same-origin',
+      error: logError,
       headers: '',
       integrity: '',
       isHistoryNavigation: false,
@@ -39,17 +31,29 @@ export default function goand(
       keepalive: false,
       method: 'GET',
       mode: 'same-origin',
+      parser: setResponse,
       redirect: 'follow',
       referrer: 'client',
       referrerPolicy: 'no-referrer-when-downgrade',
+      spinner: bool => bool,
       timeout: 9999
     },
     options
   );
-  console.log(url, settings);
+
   /* Clean up settings before fetch() */
+  const errorhandler = settings.error;
+  delete settings.error;
+
+  const parser = settings.parser;
+  delete settings.parser;
+
+  const spinner = settings.spinner;
+  delete settings.spinner;
+
   const timeout = settings.timeout;
-  settings.timeout = '';
+  delete settings.timeout;
+
   Object.entries(settings).forEach(([key, value]) => {
     if (!value) {
       delete settings[key];
@@ -69,17 +73,17 @@ export default function goand(
 
   return fetch(url, settings)
     .then(handleErrors)
-    .then(response => setResponse(response))
+    .then(response => parser(response))
     .then(result => result)
     .catch(error => {
       if (error.name === 'AbortError') {
-        callback({
+        errorhandler({
           name: 'FetchError',
           message: `Timeout after ${timeout} milliseconds.`,
           status: 524
         });
       } else {
-        callback(error);
+        errorhandler(error);
       }
     })
     .finally(() => {
@@ -115,13 +119,7 @@ function logError(error) {
  */
 function setResponse(response) {
   const contentType = response.headers.get('content-type');
-  /*TODO: arrayBuffer, blob, document, json, text 
-  var parser = new DOMParser();
-
-        // Parse the text
-        var doc = parser.parseFromString(html, "text/html");
-  
-  */
-  const isJSON = contentType.includes('application/json');
-  return isJSON ? response.json() : response.text();
+  return contentType.includes('application/json')
+    ? response.json()
+    : response.text();
 }

@@ -9,7 +9,8 @@ Wrapper for fetch. Description in-progress ;-)
 | cache               | *default, no-cache, no-store, reload, force-cache, only-if-cached 
 | callback            | function *logError
 | credentials         | include, *same-origin, omit
- files(2)             | input[type=file].files or array of file-objects
+| error               | Callback error-function
+| files(2)            | input[type=file].files or array of file-objects
 | header(3)           | blank
 | integrity(4)         | blank
 | isHistoryNavigation | false
@@ -17,10 +18,11 @@ Wrapper for fetch. Description in-progress ;-)
 | keepalive           | false
 | method              | *GET, POST, PUT, DELETE
 | mode                | no-cors, cors, *same-origin
+| parser              | Custom parser-function (response)
 | redirect            | manual, *follow, error
 | referrer            | no-referrer, *client
 | referrerPolicy      | *no-referrer-when-downgrade, no-referrer, origin", origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-| spinner             | function
+| spinner             | Custom spinner-function (boolean)
 | timeout(5)          | 3000
 
 (1) Data type must match "Content-Type" header  
