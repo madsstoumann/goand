@@ -3,7 +3,7 @@
  * @module /goand.mjs
  * @version 0.9.0
  * @author Mads Stoumann
- * @description Wrapper for fetch with timeout, custom error-, spinner-, and parser-callbacks.
+ * @description Wrapper for fetch with timeout, custom error-, parser- and spinner-callbacks.
  */
 
 /**
@@ -20,10 +20,10 @@ class FetchError extends Error {
 }
 
 /**
- * @function gofor
+ * @function goand
  * @param {String} url
  * @param {Object} options
- * @description Wrapper for fetch with default options, error callback, spinner callback
+ * @description Wrapper for fetch with default options and custom callbacks
  */
 export default function goand(url, options) {
   const settings = Object.assign(
