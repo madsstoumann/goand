@@ -5,9 +5,8 @@ Wrapper for fetch. Description in-progress ;-)
 
 | Setting             | Possible values (*default)                 |
 | :------------------ | ----------------------------: |
-| body (1)            | blank
+| body (1)            | blank (use with `FormData`)
 | cache               | *default, no-cache, no-store, reload, force-cache, only-if-cached 
-| callback            | function *logError
 | credentials         | include, *same-origin, omit
 | error               | Custom error-function
 | header(2)           | blank
