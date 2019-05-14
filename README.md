@@ -30,12 +30,21 @@
 If an error occurs, it is normally sent to the built-in method: _logError_. By specifying a custom error method, the error is sent to that.
 
 ## Spinner callback
+A dummy _spinner_-method is triggered before a fetch and when it's completed. By specifying a custom _spinner_-method (must recieve a boolean as it's sinbgle parameter), that functin is run.
 
 ## Examples
 
 ```js
 (async () => {
-  const data = await fetchIt('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem',{ mode: 'cors' });
+  const data = await goand('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem',{ mode: 'cors' });
   console.log(data);
 })();
+
+goand('//dawa.aws.dk/adresser/autocomplete?side=1&per_side=10&q=marievej', { mode: 'cors', timeout: 3000 }, myError).then(data => {
+  console.log(data);
+});
+
+goand('//httpstat.us/500', { mode: 'cors' }, myError).then(data => {
+  console.log(data);
+});
 ```
