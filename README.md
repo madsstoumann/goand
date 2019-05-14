@@ -9,10 +9,9 @@ Wrapper for fetch. Description in-progress ;-)
 | cache               | *default, no-cache, no-store, reload, force-cache, only-if-cached 
 | callback            | function *logError
 | credentials         | include, *same-origin, omit
-| error               | Callback error-function
-| files(2)            | input[type=file].files or array of file-objects
-| header(3)           | blank
-| integrity(4)         | blank
+| error               | Custom error-function
+| header(2)           | blank
+| integrity(3)        | blank
 | isHistoryNavigation | false
 | isReloadNavigation  | false
 | keepalive           | false
@@ -23,19 +22,24 @@ Wrapper for fetch. Description in-progress ;-)
 | referrer            | no-referrer, *client
 | referrerPolicy      | *no-referrer-when-downgrade, no-referrer, origin", origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 | spinner             | Custom spinner-function (boolean)
-| timeout(5)          | 3000
+| timeout(4)          | *9999
 
 (1) Data type must match "Content-Type" header  
-(2) Files array (FileReader) or input[type=file].files  
-(3) { "Content-Type": "application/json" } etc.  
-(4) Example: 'sha256-abd'  
-(5) Timeout in milliseconds
+(2) { "Content-Type": "application/json" } etc.  
+(3) Example: 'sha256-abd'  
+(4) Timeout in milliseconds
 
 ## Error callback
-If an error occurs, it is normally sent to the built-in method: _logError_. By specifying a custom error method, the error is sent to that.
+If an error occurs, it is normally sent to the built-in method `logError`.  
+You can specify a custom `error`-method in the `options`-object.
+
+## Parser callback
+By default, a `response` is parsed through the `setResponse`-method, that will return `json` or `text`.
+You can specify a custom `parser`-method in the `options`-object.
 
 ## Spinner callback
-A dummy _spinner_-method is triggered before a fetch and when it's completed. By specifying a custom _spinner_-method (must recieve a boolean as it's sinbgle parameter), that functin is run.
+A dummy _spinner_-method is triggered _before_ a fetch and when it's completed.  
+You can specify a custom `spinner`-method in the `options`-object (must recieve a boolean as it's single parameter).
 
 ## Examples
 
