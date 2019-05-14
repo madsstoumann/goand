@@ -43,15 +43,32 @@ A dummy _spinner_-method is triggered before a fetch and when it's completed. By
 import goand from './goand.mjs';
 
 (async () => {
-  const data = await goand('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem',{ mode: 'cors' });
+  const data = await goand('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem', {
+    error: myError,
+    mode: 'cors',
+    spinner: mySpinner
+  });
   console.log(data);
 })();
 
-goand('//dawa.aws.dk/adresser/autocomplete?side=1&per_side=10&q=marievej', { mode: 'cors', timeout: 3000 }, myError).then(data => {
+goand('//dawa.aws.dk/adresser/autocomplete?side=1&per_side=10&q=marievej', {
+  error: myError,
+  mode: 'cors',
+  timeout: 3000
+}).then(data => {
   console.log(data);
 });
 
-goand('//httpstat.us/500', { mode: 'cors' }, myError).then(data => {
+goand('//httpstat.us/500', {
+  error: myError,
+  mode: 'cors'
+}).then(data => {
+  console.log(data);
+});
+
+goand('logifront.svg', {
+  parser: myParser
+}).then(data => {
   console.log(data);
 });
 ```
