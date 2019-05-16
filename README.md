@@ -15,7 +15,7 @@ Use: `goand(url, options)`
 | isHistoryNavigation | false
 | isReloadNavigation  | false
 | keepalive           | false
-| method              | *GET, POST, PUT, DELETE
+| method              | *GET, POST, PUT, DELETE, PATCH
 | mode                | no-cors, cors, *same-origin
 | parser              | Custom parser-function (response)
 | redirect            | manual, *follow, error

@@ -4,6 +4,7 @@
   <title>GoAnd</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link href="spinner.css" rel="stylesheet">
 </head>
 <body>
 
@@ -21,24 +22,16 @@
     return parser.parseFromString(response, "text/html");
   }
 
-  /* Custom spinner */
-  function mySpinner(bool) {
-    if (bool) {
-      console.log(`%c Spinner %c ON `, "background:#333333 ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff", "background:#2e7d32; padding: 1px; color: #fff");
-    }
-    else {
-      console.log(`%c Spinner %c OFF `, "background:#333333 ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff", "background:#e60032; padding: 1px; color: #fff");
-    }
-  }
-
   /* Examples */
   import goand from './goand.mjs';
+  import Spinner from './spinner.mjs';
 
   (async () => {
+    const spinner = new Spinner({ class: 'c-spinner__circle', console: true });
     const data = await goand('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem', {
       error: myError,
       mode: 'cors',
-      spinner: mySpinner
+      spinner: spinner.show
     });
     console.log(data);
   })();
