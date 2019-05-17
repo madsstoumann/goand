@@ -3,19 +3,23 @@
  * @module /spinner.mjs
  * @version 0.9.0
  * @author Mads Stoumann
- * @description Spinner, that can be a ttached to a DOM-node
+ * @description Spinner, that can be attached to a DOM-node
  */
 
 import { h } from './common.mjs';
 export default class Spinner {
-  constructor(settings) {
+  constructor(settings = {}) {
     this.settings = Object.assign(
       {
-        class: 'c-spinner__circle',
-        classText: 'c-spinner__text',
+        clsInner: 'c-spinner__inner',
+        clsSpinner: 'c-spinner__circle c-spinner--xxl',
+        clsText: 'c-spinner__text',
+        clsWrapper: 'c-spinner--overlay',
         console: false,
+        displayText: false,
+        removeOnDone: false,
         target: 'body',
-        text: 'Loading content. Do not refresh the page.'
+        text: 'Loading'
       },
       settings
     );
@@ -27,12 +31,17 @@ export default class Spinner {
         'aria-hidden': true,
         'aria-label': this.settings.text,
         'aria-live': 'polite',
-        class: this.settings.class,
+        class: this.settings.clsWrapper,
         role: 'status'
       },
-      [h('div', { class: this.settings.classText })]
+      [
+        h('div', { class: this.settings.clsSpinner }, [
+          h('div', { class: this.settings.clsInner })
+        ]),
+        h('div', { class: this.settings.clsText }, [this.settings.text])
+      ]
     );
-    // this.spinner.hidden = true;
+    this.spinner.hidden = true;
     this.target = document.querySelector(this.settings.target);
 
     if (this.target) {
@@ -48,7 +57,7 @@ export default class Spinner {
    */
   spin(bool) {
     this.spinner.setAttribute('aria-hidden', !bool);
-    // this.spinner.hidden = !bool;
+    this.spinner.hidden = !bool;
     if (bool) {
       if (this.settings.console) {
         console.log(
@@ -64,6 +73,9 @@ export default class Spinner {
           'background:#333333; padding: 1px; color: #fff',
           'background:#e60032; padding: 1px; color: #fff'
         );
+      }
+      if (this.settings.removeOnDone) {
+        this.target.removeChild(this.spinner);
       }
     }
   }

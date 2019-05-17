@@ -1,4 +1,7 @@
-/* For all spinners: Set font-size: 1rem (or preferred size) on wrapper to scale it */
+/* 
+For all spinners: Set font-size: 1rem (or preferred size) on wrapper to scale it,
+or use modifier classes at the end of this module 
+*/
 
 /**
 * ==============================================
@@ -196,3 +199,36 @@
   }
 }
 
+/* Text, Wrapper, Modifiers */
+.c-spinner--inline {
+  display: inline-block;
+  padding-inline-start: 1em;
+}
+
+.c-spinner--overlay {
+  align-items: center;
+  background-color: rgba(0, 0, 0, .3);
+  bottom: 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 9999;
+}
+
+.c-spinner--inline[hidden],
+.c-spinner--overlay[hidden]  {
+  display: none !important;
+}
+
+.c-spinner__text {
+  display: none;
+  font-family: sans-serif;
+  font-size: small;
+  margin: 1em 0;
+}
+
+.c-spinner--xxl { font-size: 72px; }

@@ -7,7 +7,7 @@
   <link href="spinner.css" rel="stylesheet">
 </head>
 <body>
-
+<button id="myButton" style="padding:1em;">Don't click me</button>
 <script type="module">
 
   /* Custom error */
@@ -27,7 +27,7 @@
   import Spinner from './spinner.mjs';
 
   (async () => {
-    const spinner = new Spinner({ class: 'c-spinner__circle', console: true });
+    const spinner = new Spinner({ console: true });
     const data = await goand('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem', {
       error: myError,
       mode: 'cors',
@@ -44,9 +44,18 @@
     console.log(data);
   });
 
-  goand('//httpstat.us/500', {
+  const statSpinner = new Spinner(
+    // {
+    //   clsWrapper: 'c-spinner--inline',
+    //   clsSpinner: 'c-spinner__apple',
+    //   console: true,
+    //   target: '#myButton'
+    // }
+  );
+  goand('//httpstat.us/500?sleep=5000', {
     error: myError,
-    mode: 'cors'
+    mode: 'cors',
+    spinner: statSpinner.show
   }).then(data => {
     console.log(data);
   });
