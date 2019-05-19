@@ -1,21 +1,22 @@
 /**
  * Goand
  * @module /goand.mjs
- * @version 0.9.0
+ * @version 0.9.2
  * @author Mads Stoumann
  * @description Wrapper for fetch with timeout, custom error-, parser- and spinner-callbacks.
  */
 
 /**
- * Extends Error Object with FetchError, including http-status-code
+ * Extends Error Object with FetchError, including http-status-code and full response
  * @module FetchError
  */
 class FetchError extends Error {
-  constructor(message, status) {
+  constructor(message, response) {
     super(message);
     this.name = 'FetchError';
     this.message = message;
-    this.status = status;
+    this.response = response;
+    this.status = response.status;
   }
 }
 
@@ -28,21 +29,9 @@ class FetchError extends Error {
 export default function goand(url, options) {
   const settings = Object.assign(
     {
-      body: '',
-      cache: 'default',
-      credentials: 'same-origin',
-      error: logError,
-      headers: '',
-      integrity: '',
-      isHistoryNavigation: false,
-      isReloadNavigation: false,
-      keepalive: false,
-      method: 'GET',
-      mode: 'same-origin',
+      errorHandler: err => console.error(err),
+      errorList: [],
       parser: setResponse,
-      redirect: 'follow',
-      referrer: 'client',
-      referrerPolicy: 'no-referrer-when-downgrade',
       spinner: bool => bool,
       timeout: 9999
     },
@@ -50,8 +39,11 @@ export default function goand(url, options) {
   );
 
   /* Clean up settings before fetch() */
-  const errorhandler = settings.error;
-  delete settings.error;
+  const errorHandler = settings.errorHandler;
+  delete settings.errorHandler;
+
+  const errorList = settings.errorList;
+  delete settings.errorList;
 
   const parser = settings.parser;
   delete settings.parser;
@@ -80,18 +72,19 @@ export default function goand(url, options) {
   }
 
   return fetch(url, settings)
-    .then(handleErrors)
+    .then(response => handleErrors(response, errorList))
     .then(response => parser(response))
     .then(result => result)
     .catch(error => {
       if (error.name === 'AbortError') {
-        errorhandler({
+        errorHandler({
           name: 'FetchError',
           message: `Timeout after ${timeout} milliseconds.`,
+          response: '',
           status: 524
         });
       } else {
-        errorhandler(error);
+        errorHandler(error);
       }
     })
     .finally(() => {
@@ -102,22 +95,14 @@ export default function goand(url, options) {
 /**
  * @function handleErrors
  * @param {Object} response Response Object from fetch()
+ * @param {Array} [errorList] Optional array of status-codes, that will trigger an error
  * @description Throws a new ApiError if response !== ok
  */
-function handleErrors(response) {
-  if (!response.ok) {
-    throw new FetchError(response.statusText, response.status);
+function handleErrors(response, errorList = []) {
+  if (!response.ok || errorList.includes(response.status)) {
+    throw new FetchError(response.statusText, response);
   }
   return response;
-}
-
-/**
- * @function logError
- * @param {Object} error Error Object
- * @description Logs an error to console, if no custom error-callback is specified
- */
-function logError(error) {
-  console.dir(error);
 }
 
 /**

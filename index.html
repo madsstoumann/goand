@@ -4,15 +4,28 @@
   <title>GoAnd</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <link href="spinner.css" rel="stylesheet">
+  <link href="css/dialog.css" rel="stylesheet">
+  <link href="css/spinner.css" rel="stylesheet">
 </head>
 <body>
 <button id="myButton" style="padding:1em;">Don't click me</button>
 <script type="module">
 
+  import Dialog from './js/dialog.mjs';
+  import goand from './js/goand.mjs';
+  import Spinner from './js/spinner.mjs';
+
   /* Custom error */
-  function myError(error) {
-    console.log(`%c ${error.name} %c ${error.message} %c ${error.status} `, "background:#333333 ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff", "background:#e60032 ; padding: 1px; color: #fff", "background:#ccc ; padding: 1px; border-radius: 0 3px 3px 0;  color: #222");
+  function handleError(error) {
+    const dialog = new Dialog({
+      accept: 'OK',
+      hideCancel: true
+    });
+    dialog.show({
+      header: error.name,
+      message: `${error.message} (${error.status})`
+    });
+    // console.error(`%c ${error.name} %c ${error.message} %c ${error.status} `, "background:#333333 ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff", "background:#e60032 ; padding: 1px; color: #fff", "background:#ccc ; padding: 1px; border-radius: 0 3px 3px 0;  color: #222");
   }
 
   /* Custom parser */
@@ -23,48 +36,46 @@
   }
 
   /* Examples */
-  import goand from './goand.mjs';
-  import Spinner from './spinner.mjs';
+  // (async () => {
+  //   const spinner = new Spinner({ console: true });
+  //   const data = await goand('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem', {
+  //     errorHandler: handleError,
+  //     mode: 'cors',
+  //     spinner: spinner.show
+  //   });
+  //   console.log(data);
+  // })();
 
-  (async () => {
-    const spinner = new Spinner({ console: true });
-    const data = await goand('https://jsonplaceholder.typicode.com/albums/?_limit=10&q=lorem', {
-      error: myError,
-      mode: 'cors',
-      spinner: spinner.show
-    });
-    console.log(data);
-  })();
-
-  goand('//dawa.aws.dk/adresser/autocomplete?side=1&per_side=10&q=marievej', {
-    error: myError,
-    mode: 'cors',
-    timeout: 3000
-  }).then(data => {
-    console.log(data);
-  });
+  // goand('//dawa.aws.dk/adresser/autocomplete?side=1&per_side=10&q=marievej', {
+  //   errorHandler: handleError,
+  //   mode: 'cors',
+  //   timeout: 3000
+  // }).then(data => {
+  //   console.log(data);
+  // });
 
   const statSpinner = new Spinner(
-    // {
-    //   clsWrapper: 'c-spinner--inline',
-    //   clsSpinner: 'c-spinner__apple',
-    //   console: true,
-    //   target: '#myButton'
-    // }
+    {
+      clsWrapper: 'c-spinner--inline',
+      clsSpinner: 'c-spinner__apple',
+      console: true,
+      target: '#myButton'
+    }
   );
-  goand('//httpstat.us/500?sleep=5000', {
-    error: myError,
+  goand('//httpstat.us/500?sleep=3000', {
+    errorHandler: handleError,
+    errorList: [],
     mode: 'cors',
     spinner: statSpinner.show
   }).then(data => {
     console.log(data);
   });
  
-  goand('logifront.svg', {
-    parser: myParser
-  }).then(data => {
-    console.log(data);
-  });
+  // goand('logifront.svg', {
+  //   parser: myParser
+  // }).then(data => {
+  //   console.log(data);
+  // });
 
 </script>
 </body>

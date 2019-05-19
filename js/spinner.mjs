@@ -47,7 +47,6 @@ export default class Spinner {
     if (this.target) {
       this.target.appendChild(this.spinner);
     }
-    console.info(this);
   }
 
   /**

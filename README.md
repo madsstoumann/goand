@@ -9,7 +9,7 @@ Use: `goand(url, options)`
 | body (1)            | blank (use with `FormData`)
 | cache               | *default, no-cache, no-store, reload, force-cache, only-if-cached 
 | credentials         | include, *same-origin, omit
-| error               | Custom error-function
+| errorHandler        | Custom error-function
 | header(2)           | blank
 | integrity(3)        | blank
 | isHistoryNavigation | false
